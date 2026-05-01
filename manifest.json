@@ -1,39 +1,60 @@
 {
+  "id": "finplan-pro-pwa",
   "name": "FinPlan Pro",
   "short_name": "FinPlan",
   "description": "Умный учёт расходов и планирование бюджета с автоматическими накоплениями и сложным процентом",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui", "window-controls-overlay", "tabbed"],
+  "display_override": ["standalone", "window-controls-overlay"],
   "background_color": "#f7f5f2",
   "theme_color": "#7d9b75",
   "orientation": "portrait-primary",
   "lang": "ru-RU",
   "dir": "ltr",
-  "categories": ["finance", "productivity", "utilities"],
-  "iarc_rating_id": "e44cf9e2-8c0e-4c1c-8c9e-2c8c1c9e2c8c",
+  "categories": ["finance", "productivity"],
   "edge_side_panel": { "preferred_width": 400 },
   "launch_handler": { "client_mode": "focus-existing" },
+  "prefer_related_applications": false,
   "shortcuts": [
-    { "name": "Добавить расход", "short_name": "Расход", "url": "./?action=add-expense" },
-    { "name": "Накопления", "short_name": "Вклад", "url": "./?action=savings" },
-    { "name": "Финансовая цель", "short_name": "Цель", "url": "./?action=goal" }
+    {
+      "name": "Добавить расход",
+      "short_name": "Расход",
+      "description": "Быстро добавить новый расход",
+      "url": "./?action=add-expense",
+      "icons": [{ "src": "./icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Накопления",
+      "short_name": "Вклад",
+      "description": "Открыть накопительный счёт",
+      "url": "./?action=savings",
+      "icons": [{ "src": "./icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    }
   ],
-  "share_target": {
-    "action": "./?action=share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": { "title": "name", "text": "description", "url": "link" }
+  "note_taking": {
+    "new_note_url": "./?action=new-note"
   },
-  "protocol_handlers": [{ "protocol": "web+finplan", "url": "./?action=protocol&data=%s" }],
-  "file_handlers": [{ "action": "./?action=import", "accept": { "application/json": [".json"], "text/csv": [".csv"] } }],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%237d9b75'/%3E%3Cstop offset='100%25' style='stop-color:%235a7a55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='url(%23g)'/%3E%3Cpath d='M160 350 L256 180 L352 350' fill='none' stroke='white' stroke-width='30' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M330 310 L400 180 L470 310' fill='none' stroke='white' stroke-width='20' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3Ccircle cx='320' cy='160' r='25' fill='%23d4c0a5' opacity='0.8'/%3E%3C/svg%3E",
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshot-1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "label": "Главный экран с балансом"
     }
   ]
 }
