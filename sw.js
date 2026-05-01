@@ -1,8 +1,8 @@
 const CACHE_NAME = 'finplan-pro-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  './',
+  './index.html',
+  './manifest.json'
 ];
 
 self.addEventListener('install', event => {
