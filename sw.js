@@ -1,10 +1,11 @@
-const CACHE_NAME = 'finplan-pro-v2';
+const CACHE_NAME = 'finplan-pro-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './icon-shortcut.png'
 ];
 
 // Установка
@@ -39,31 +40,53 @@ self.addEventListener('sync', event => {
   }
 });
 
-// Периодическая фоновая синхронизация
+// Периодическая синхронизация
 self.addEventListener('periodicsync', event => {
   if (event.tag === 'update-savings') {
     event.waitUntil(updateSavingsInBackground());
   }
 });
 
+// Push-уведомления
+self.addEventListener('push', event => {
+  const data = event.data ? event.data.json() : {};
+  const options = {
+    body: data.body || 'Обновление ваших финансов',
+    icon: './icon-192.png',
+    badge: './icon-192.png',
+    vibrate: [200, 100, 200],
+    tag: 'finplan-notification',
+    data: { url: data.url || './' }
+  };
+  
+  event.waitUntil(
+    self.registration.showNotification(
+      data.title || 'FinPlan Pro',
+      options
+    )
+  );
+});
+
+// Клик по уведомлению
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(clientList => {
+      if (clientList.length > 0) {
+        return clientList[0].focus();
+      }
+      return clients.openWindow(event.notification.data.url || './');
+    })
+  );
+});
+
 async function syncData() {
-  // Отправляем накопленные данные на сервер (если будет бэкенд)
-  const data = await getLocalData();
-  if (data) {
-    // await fetch('/api/sync', { method: 'POST', body: JSON.stringify(data) });
-    console.log('🔄 Данные синхронизированы');
-  }
+  console.log('🔄 Фоновая синхронизация');
 }
 
 async function updateSavingsInBackground() {
-  // Обновляем накопления в фоне
   const clients = await self.clients.matchAll();
   clients.forEach(client => {
     client.postMessage({ type: 'UPDATE_SAVINGS' });
   });
-}
-
-async function getLocalData() {
-  // В реальном приложении — чтение из IndexedDB
-  return null;
 }
